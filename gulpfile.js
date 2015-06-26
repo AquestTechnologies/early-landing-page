@@ -28,13 +28,11 @@ var RevAll = require('gulp-rev-all');
 var through = require('through2');
 var filter = require('gulp-filter');
 var pngquant = require('imagemin-pngquant');
-var minifyCss = require('gulp-minify-css');
-var uglify = require('gulp-uglify');
 
 var server;
 
 // <https://github.com/smysnk/gulp-rev-all>
-// var revAll = new RevAll({});
+var revAll = new RevAll({});
 
 // load dependencies
 var IoC = require('electrolyte');
@@ -128,67 +126,50 @@ gulp.task('copy', function() {
     .pipe(gulp.dest('./assets/dist/'));
 });
 
-gulp.task('fonts', function() {
-  return gulp.src([
-      './assets/public/fonts/**/*'
-    ])
-    .pipe(gulp.dest('./assets/dist/fonts'));
-});
-
 gulp.task('usemin-css', function() {
 
-  // var imageFilter = filter('**/*.{jpg,jpeg,gif,png}');
-  // var fontFilter = filter('**/*.{eot,svg,ttf,woff,woff2,otf}');
-  // var cssAndJsFilter = filter([
-  //   '**/*.css',
-  //   '**/*.js'
-  // ]);
-  // var cssFilter = filter('**/*.css');
-  // var jsFilter = filter('**/*.js');
+  var imageFilter = filter('**/*.{jpg,jpeg,gif,png}');
+  var fontFilter = filter('**/*.{eot,svg,ttf,woff,woff2,otf}');
+  var cssAndJsFilter = filter([
+    '**/*.css',
+    '**/*.js'
+  ]);
+  var cssFilter = filter('**/*.css');
+  var jsFilter = filter('**/*.js');
 
-  // // create an accurate version of css with
-  // // images that have rev md5 hashes
-  // // and css that has updated image/font paths
-  // return gulp
-  //   .src([
-  //     'assets/public/img/**/*.{jpg,jpeg,gif,png}',
-  //     'assets/public/fonts/**/*.{eot,svg,ttf,woff,woff2,otf}',
-  //     'assets/public/js/**/*.js',
-  //     'assets/public/css/**/*.css'
-  //   ])
-  //   // .pipe(revAll.revision())
-  //   // .pipe(imageFilter)
-  //   // .pipe(imagemin({
-  //   //   progressive: true,
-  //   //   svgoPlugins: [ { removeViewBox: false } ],
-  //   //   use: [ pngquant() ]
-  //   // }))
-  //   // .pipe(gulp.dest('./assets/dist'))
-  //   // .pipe(imageFilter.restore())
-  //   .pipe(fontFilter)
-  //   .pipe(gulp.dest('./assets/dist'))
-  //   .pipe(fontFilter.restore())
-  //   // .pipe(cssAndJsFilter)
-  //   // .pipe(through.obj(function(file, enc, cb) {
-  //   //   file.path = file.revOrigPath;
-  //   //   cb(null, file);
-  //   // }))
-  //   // .pipe(cssAndJsFilter.restore())
-  //   .pipe(cssFilter)
-  //   .pipe(gulp.dest('./assets/dist'))
-  //   .pipe(cssFilter.restore())
-  //   .pipe(jsFilter)
-  //   .pipe(gulp.dest('./assets/dist'));
-  
-  return gulp.src('assets/public/css/**/*.css')
-    .pipe(minifyCss())
-    .pipe(gulp.dest('./assets/dist/css/'));
-});
-
-gulp.task('usemin-js', function() {
-  return gulp.src('assets/public/js/**/*.js')
-    .pipe(uglify())
-    .pipe(gulp.dest('./assets/dist/js/'));
+  // create an accurate version of css with
+  // images that have rev md5 hashes
+  // and css that has updated image/font paths
+  return gulp
+    .src([
+      'assets/public/img/**/*.{jpg,jpeg,gif,png}',
+      'assets/public/fonts/**/*.{eot,svg,ttf,woff,woff2,otf}',
+      'assets/public/js/**/*.js',
+      'assets/public/css/**/*.css'
+    ])
+    .pipe(revAll.revision())
+    .pipe(imageFilter)
+    .pipe(imagemin({
+      progressive: true,
+      svgoPlugins: [ { removeViewBox: false } ],
+      use: [ pngquant() ]
+    }))
+    .pipe(gulp.dest('./assets/dist'))
+    .pipe(imageFilter.restore())
+    .pipe(fontFilter)
+    .pipe(gulp.dest('./assets/dist'))
+    .pipe(fontFilter.restore())
+    .pipe(cssAndJsFilter)
+    .pipe(through.obj(function(file, enc, cb) {
+      file.path = file.revOrigPath;
+      cb(null, file);
+    }))
+    .pipe(cssAndJsFilter.restore())
+    .pipe(cssFilter)
+    .pipe(gulp.dest('./assets/dist'))
+    .pipe(cssFilter.restore())
+    .pipe(jsFilter)
+    .pipe(gulp.dest('./assets/dist'));
 });
 
 gulp.task('usemin-jade', function() {
@@ -200,15 +181,9 @@ gulp.task('usemin-jade', function() {
     .src('./app/views/**/*.jade')
     .pipe(usemin({
       assetsDir: path.join(settings.assetsDir, 'dist'),
-      // css: [csso(), 'concat', rev() ],
-      css: [csso(), 'concat', '' ],
-      // css: csso(),
-      // html: [minifyHtml({empty: true}), 'concat', rev() ],
-      html: [minifyHtml({empty: true}), 'concat', '' ],
-      // html: minifyHtml({empty: true}),
-      // js: [ uglify(), 'concat', rev() ]
-      js: [ uglify(), 'concat', '' ]
-      // js: uglify()
+      css: [csso(), 'concat', rev() ],
+      html: [minifyHtml({empty: true}), 'concat', rev() ],
+      js: [ uglify(), 'concat', rev() ]
     }))
     .pipe(gulp.dest('./assets/dist'));
 
@@ -226,8 +201,7 @@ gulp.task('jade', function() {
         config: settings
       }
     }))
-    // .pipe(rev())
-    // .pipe(rename('index.html'))
+    .pipe(rev())
     .pipe(gulp.dest('./assets/dist'));
 });
 
@@ -264,10 +238,8 @@ gulp.task('build', function(callback) {
   runSequence(
     'postinstall',
     'copy',
-    'fonts',
     'imagemin',
     'usemin-css',
-    'usemin-js',
     'usemin-jade',
     'jade'
   , callback);
@@ -285,10 +257,10 @@ gulp.task('default', [ 'build' ]);
 gulp.task('server', function() {
   server = gls.new('app.js', undefined, 35729);
   // <https://github.com/gimm/gulp-live-server/issues/14#issuecomment-110844827>
-  server.start();//.then(null, null, function(code) {
-    // if (code.indexOf('app booted') !== -1)
-    //   open('http://localhost:3000');
-  // });
+  server.start().then(null, null, function(code) {
+    if (code.indexOf('app booted') !== -1)
+      open('http://localhost:3000');
+  });
 });
 
 gulp.task('watch', [ 'server' ], function() {
