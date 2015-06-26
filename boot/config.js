@@ -18,20 +18,20 @@ exports = module.exports = function() {
     defaults: {
       pageTitle: 'Gulp AWS Splash',
       pageDescription: 'The open-source LaunchRock alternative',
-      googleAnalytics: env.GA || 'TODO',
+      googleAnalytics: env.GA || 'UA-64548308-1',
       mailChimp: {
-        actionUrl: env.MC_AU || 'TODO',
-        hiddenInputName: env.MC_HIN || 'TODO'
+        actionUrl: env.MC_AU || '//aquest.us11.list-manage.com/subscribe/post?u=f496e12e502c71af1e3b19914&amp;id=621bddd7d2',
+        hiddenInputName: env.MC_HIN || 'b_f496e12e502c71af1e3b19914_621bddd7d2'
       },
       aws: {
-        key: env.AWS_KEY || 'TODO',
-        accessKeyId: env.AWS_KEY || 'TODO',
-        secret: env.AWS_SECRET || 'TODO',
-        secretAccessKey: env.AWS_SECRET || 'TODO',
-        distributionId: env.AWS_DI || 'TODO',
+        key: env.AWS_KEY || 'AKIAI2CMF6I4NO6HEV4A',
+        accessKeyId: env.AWS_KEY || 'AKIAI2CMF6I4NO6HEV4A',
+        secret: env.AWS_SECRET || '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',
+        secretAccessKey: env.AWS_SECRET || '9L4WnnNCOjYYEVOQMyN4qbrMTCg7SurTOHO/+SUr',
+        distributionId: env.AWS_DI || 'E2YLV0IMIU4UQP',
         patternIndex: /^\/index\-[a-f0-9]+\.html(\.gz)*$/gi,
         params: {
-          Bucket: env.AWS_BUCKET || 'TODO'
+          Bucket: env.AWS_BUCKET || 'early-landing-page'
         }
       },
       pkg: pkg,
@@ -48,7 +48,7 @@ exports = module.exports = function() {
       },
       url: 'http://localhost:3000',
       server: {
-        host: 'localhost',
+        host: '0.0.0.0',
         cluster: false,
         env: 'development',
         port: 3000,
