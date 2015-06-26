@@ -24,14 +24,14 @@ block content
             br
             span like never before
           p.lead 
-            span Whatever subject you like will be on Aquest.
+            span Whatever subject you like will be on Aquest
             br
-            span Anonymous, transparent, free and add-free.
+            span Anonymous, transparent, free and add-free
             br
             span Sign-up now for our beta in October 2015
-            br 
-            span.small
-              span.small we won't spam you or divulge your email
+            // br 
+            // span.small
+              // span.small we won't spam you or divulge your email
           form(action=config.mailChimp.actionUrl, method='POST').form-group
             //- bot prevention
             input(type='hidden', name=config.mailChimp.hiddenInputName, value='')
@@ -40,7 +40,10 @@ block content
               input(type='email', name='EMAIL', placeholder='Email Address', required).form-control.input-lg#mailcheck-input
               .input-group-btn
                 button(type='submit', value='Subscribe', name='subscribe').btn.btn-primary.btn-lg Notify me when ready!
+          p
+            div we won't spam you or divulge your email
+            div Made with ♥ in Paris by Aquest Technologies &bull; <a href="mailto:hello@aquest.fr?Subject=Hello" target="_top">hello@aquest.fr</a>
           //p.lead.hidden#mailcheck-suggestion Did you mean <a href="#" id="mailcheck-a"></a>?
-        .mastfoot
-          .inner
-            p.inner-p Made with ♥ in Paris by Aquest Technologies &bull; <a href="mailto:hello@aquest.fr?Subject=Hello" target="_top">hello@aquest.fr</a>
+        // .mastfoot
+        //   .inner
+        //     p.inner-p Made with ♥ in Paris by Aquest Technologies &bull; <a href="mailto:hello@aquest.fr?Subject=Hello" target="_top">hello@aquest.fr</a>
