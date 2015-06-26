@@ -16,7 +16,7 @@ exports = module.exports = function() {
   return {
 
     defaults: {
-      pageTitle: 'Gulp AWS Splash',
+      pageTitle: 'Aquest early access',
       pageDescription: 'The open-source LaunchRock alternative',
       googleAnalytics: env.GA || 'UA-64548308-1',
       mailChimp: {

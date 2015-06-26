@@ -2,7 +2,7 @@
 
   // mailcheck to auto-correct emails
   $(function() {
-
+    
     var $mailCheckSuggestion = $('#mailcheck-suggestion');
     var $mailCheckAnchor = $('#mailcheck-a');
     var $mailCheckInput = $('#mailcheck-input');
@@ -35,5 +35,42 @@
     });
 
   });
+  
+  window.onload = function() {
+    function getParameterByName(name) { // http://stackoverflow.com/a/5158301
+      var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+      return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+    }
+    console.log('Hello there ;)');
+    console.log('If you want to hack us you have our blessing !');
+    console.log('Contact us first at hello@aquest.fr for our host ip and port, and stack info !');
+    var source = getParameterByName('source');
+    // console.log('source : ' + source);
+    document.getElementById('mce-LNAME').value = source;
+    
+    
+    (function carroussel(array) {
+      // console.log('carroussel');
+      var pictures = [];
+      for (var i = 0, l = array.length; i < l; i++) {
+        pictures[i] = new Image();
+        pictures[i].src = array[i];
+      }
+      pictures[1].onLoad = (function() {
+        // console.log('startCarroussel');
+        var index = 0;
+        setInterval(function(){ 
+          // console.log('setPicture ' + index);
+          index = index === array.length - 1 ? 0 : index + 1;
+          document.getElementById('wrap').style.backgroundImage = 'url(' + pictures[index].src + ')';
+        }, 4500);
+      })();
+      
+    })([
+      '1.png',
+      '2.png',
+      '3.png',
+      ]);
+  };
 
 }());
