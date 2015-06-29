@@ -229,7 +229,7 @@ gulp.task('publish', function() {
     .pipe(publisher.publish(headers))
     // create a cache file to speed up consecutive uploads
     .pipe(publisher.cache())
-    .pipe(publisher.sync()) // Supprime les fichiers existants, très dangereux car si le dossier dist ne marche pas cloudfront sert dlm
+    // .pipe(publisher.sync()) // Supprime les fichiers existants, très dangereux car si le dossier dist ne marche pas cloudfront sert dlm
      // print upload updates to console
     .pipe(awspublish.reporter())
     .pipe(cloudfront(settings.aws));
