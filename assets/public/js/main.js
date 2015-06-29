@@ -1,6 +1,7 @@
 (function() {
 
-  // mailcheck to auto-correct emails
+  
+  
   $(function() {
     
     var $mailCheckSuggestion = $('#mailcheck-suggestion');
@@ -36,7 +37,9 @@
 
   });
   
-  window.onload = function() {
+  $(document).ready( function() {
+    
+    
     function getParameterByName(name) { // http://stackoverflow.com/a/5158301
       var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
       return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
@@ -72,6 +75,6 @@
       'img/2.png',
       'img/3.png',
       ]);
-  };
+  });
 
 }());
