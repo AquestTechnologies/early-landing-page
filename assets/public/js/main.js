@@ -40,17 +40,9 @@
   $(document).ready( function() {
     
     
-    function getParameterByName(name) { // http://stackoverflow.com/a/5158301
-      var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
-      return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-    }
     console.log('Hello there ;)');
-    console.log('If you want to hack us you have our blessing !');
+    console.log('If you want to hack our product you have our blessing !');
     console.log('Contact us first at hello@aquest.fr for our host ip and port, and stack info !');
-    var source = getParameterByName('source');
-    // console.log('source : ' + source);
-    document.getElementById('mce-LNAME').value = source;
-    
     
     (function carroussel(array) {
       // console.log('carroussel');
@@ -63,7 +55,7 @@
       pictures[1].onLoad = (function() {
         // console.log('startCarroussel');
         var index = 0;
-        setInterval(function(){ 
+        setInterval(function() { 
           // console.log('setPicture ' + index);
           index = index === array.length - 1 ? 0 : index + 1;
           document.getElementById('wrap').style.backgroundImage = 'url(' + pictures[index].src + ')';
@@ -76,5 +68,5 @@
       'img/3.png',
       ]);
   });
-
+  
 }());

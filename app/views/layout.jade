@@ -35,6 +35,7 @@ html.no-js
       script(src='/bower/jquery/dist/jquery.js')
       script(src='/bower/bootstrap/dist/js/bootstrap.js')
       script(src='/bower/mailcheck/src/mailcheck.js')
+      script(src='/js/firebase.js')
       script(src='/js/main.js')
       
     //- endbuild
@@ -47,9 +48,21 @@ html.no-js
      ga('send', 'pageview');
      
     script.
+      var myFirebaseRef = new Firebase("https://scorching-torch-6046.firebaseio.com/visitor");
+      function getParameterByName(name) {
+        var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+        return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+      }
+      var source = getParameterByName('source');
+      
+    script.
       (function (e, t) { if (!t.__SV) { window.calq = t; var n = e.createElement("script"); n.type = "text/javascript"; n.src = "http" + ("https:" === e.location.protocol ? "s" : "") + '://api.calq.io/lib/js/core-1.0.js'; n.async = !0; var r = e.getElementsByTagName("script")[0]; r.parentNode.insertBefore(n, r); t.init = function (e, o) { if (t.writeKey) return; t.writeKey = e; t._initOptions = o; t._execQueue = []; m = "action.track action.trackSale action.trackHTMLLink action.trackPageView action.setGlobalProperty user.profile user.identify user.clear".split(" "); for (var n = 0; n < m.length; n++) { var f = function () { var r = m[n]; var s = function () { t._execQueue.push({ m: r, args: arguments }) }; var i = r.split("."); if (i.length == 2) { if (!t[i[0]]) { t[i[0]] = [] } t[i[0]][i[1]] = s } else { t[r] = s } }(); } }; t.__SV = 1 } })(document, window.calq || []);
       calq.init("22274a22d8fc30b42ec9d342a4f53c6a");
       calq.action.trackPageView();
+      calq.action.track(
+          "Source",
+          { "from": source }
+      );
     
     script.
       function getip(json){
@@ -60,4 +73,17 @@ html.no-js
       
     script(src='http://jsonip.appspot.com/?callback=getip')
     
+    script.
+      $('#theform').submit(function () {
+        calq.action.trackHTMLLink('Subscribe');
+        var email = $('[name="EMAIL"]')[0].value;
+        myFirebaseRef.push({
+          email: email,
+          source: source
+        });
+        console.log('email suscribed !');
+        $('#thankyounote').toggleClass('hidden');
+        $('#theform').toggleClass('hidden');
+        return false;
+      });
     

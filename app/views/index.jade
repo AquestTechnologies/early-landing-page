@@ -32,14 +32,15 @@ block content
             // br 
             // span.small
               // span.small we won't spam you or divulge your email
-          form(action=config.mailChimp.actionUrl, method='POST').form-group
+          #thankyounote.hidden
+            p.lead Thank you for your interest !
+            
+          form(id='theform' action="#").form-group
             //- bot prevention
-            input(type='hidden', name=config.mailChimp.hiddenInputName, value='')
-            input(type='hidden', name='LNAME', id='mce-LNAME', value='')
             .input-group
               input(type='email', name='EMAIL', placeholder='Email Address', required).form-control.input-lg#mailcheck-input
               .input-group-btn
-                button(type='submit', value='Subscribe', name='subscribe', onclick="calq.action.trackHTMLLink('Subscribe');").btn.btn-primary.btn-lg Notify me when ready!
+                button(type='submit', value='Subscribe', name='subscribe').btn.btn-primary.btn-lg Notify me when ready!
           p
             div we won't spam you or divulge your email
             div Made with ♥ in Paris by Aquest Technologies &bull; <a href="mailto:hello@aquest.fr?Subject=Hello" target="_top">hello@aquest.fr</a>
